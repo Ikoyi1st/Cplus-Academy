@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Code, Moon, Sun, Menu, X } from "lucide-react"
+import { Code, Moon, Sun, Menu, X } from 'lucide-react'
 import { useTheme } from "next-themes"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -43,12 +43,36 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Code className="h-5 w-5 text-white" />
+              <div className="w-14 h-14 relative rounded-lg shadow-md ring-2 ring-blue-100 dark:ring-blue-900/20 p-1">
+                {mounted && (
+                  <>
+                    {/* Light theme logo */}
+                    <img 
+                      src="/college-logo.jpg" 
+                      alt="Computer College Plus Logo" 
+                      className={`w-full h-full object-contain transition-opacity duration-200 ${
+                        theme === 'dark' ? 'opacity-0' : 'opacity-100'
+                      }`}
+                    />
+                    {/* Dark theme logo */}
+                    <img 
+                      src="/college-logo2.jpg" 
+                      alt="Computer College Plus Logo" 
+                      className={`w-full h-full object-contain absolute inset-0 transition-opacity duration-200 ${
+                        theme === 'dark' ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    />
+                  </>
+                )}
+                {/* Fallback for when not mounted */}
+                {!mounted && (
+                  <img 
+                    src="/college-logo.jpg" 
+                    alt="Computer College Plus Logo" 
+                    className="w-full h-full object-contain"
+                  />
+                )}
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                TechAcademy
-              </span>
             </Link>
           </motion.div>
 
