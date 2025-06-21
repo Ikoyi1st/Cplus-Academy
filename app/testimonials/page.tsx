@@ -107,27 +107,6 @@ export default function TestimonialsPage() {
     },
   ]
 
-  const videoTestimonials = [
-    {
-      name: "Jennifer Park",
-      role: "Full Stack Developer at Spotify",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "2:34",
-    },
-    {
-      name: "Robert Martinez",
-      role: "ML Engineer at Tesla",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "3:12",
-    },
-    {
-      name: "Amanda Foster",
-      role: "Mobile Developer at Instagram",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "2:45",
-    },
-  ]
-
   const stats = [
     { value: "95%", label: "Job Placement Rate" },
     { value: "4.9/5", label: "Average Rating" },
@@ -280,63 +259,6 @@ export default function TestimonialsPage() {
                 />
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Video Testimonials */}
-      <section className="py-20 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              Video Testimonials
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Watch our graduates share their transformation stories
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {videoTestimonials.map((video, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                  <div className="relative">
-                    <Image
-                      src={video.thumbnail || "/placeholder.svg"}
-                      alt={video.name}
-                      width={300}
-                      height={200}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                        <Play className="h-8 w-8 text-primary ml-1" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                      {video.duration}
-                    </div>
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{video.name}</CardTitle>
-                    <CardDescription>{video.role}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
