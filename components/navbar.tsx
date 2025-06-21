@@ -67,7 +67,7 @@ export function Navbar() {
                 {/* Fallback for when not mounted */}
                 {!mounted && (
                   <img 
-                    src="/college-logo.jpg" 
+                    src="/college-logo2.jpg" 
                     alt="Computer College Plus Logo" 
                     className="w-full h-full object-contain"
                   />
