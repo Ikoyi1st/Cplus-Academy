@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin } from "lucide-react"
+import { Github, Twitter, Linkedin, Instagram, Facebook, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeLogo } from "./theme-logo"
 import Link from "next/link"
@@ -129,15 +129,26 @@ export function Footer() {
             &copy; {new Date().getFullYear()} C Plus. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
-              <Github className="h-5 w-5" />
-            </Button>
+            <Link href="https://x.com/CC__Plus?t=C1Eqihut0phCzqCRRp9OHg&s=09">
             <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
               <Twitter className="h-5 w-5" />
             </Button>
+            </Link>
+            <Link href="https://www.linkedin.com/company/computer-college-plus/">
             <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
               <Linkedin className="h-5 w-5" />
             </Button>
+            </Link>
+            <Link href="https://www.instagram.com/computercollege_ccplus?igsh=NnhveG0wajlmdjcy">
+            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
+              <Instagram className="h-5 w-5" />
+            </Button>
+            </Link>
+            <Link href="https://www.facebook.com/share/12LHsC8fcQo/?mibextid=qi2Omg">
+            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
+              <Facebook className="h-5 w-5" />
+            </Button>
+            </Link>
           </div>
         </div>
       </div>
