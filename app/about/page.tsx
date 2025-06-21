@@ -135,12 +135,13 @@ export default function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-lg text-muted-foreground mb-6">
-                At TechAcademy, we believe that everyone deserves access to high-quality tech education. Our mission is
-                to bridge the gap between traditional education and industry needs by providing practical, hands-on
+                At Computer College Plus, we believe that everyone deserves access to high-quality tech education. Our mission is
+                bridging the digital divide by providing accessible and comprehensive training programmes for people of all ages
+                by bridging the gap between traditional education and industry needs by providing practical, hands-on
                 learning experiences that prepare students for successful careers in technology.
               </p>
               <p className="text-lg text-muted-foreground mb-8">
-                Since our founding in 2018, we've helped thousands of students transform their careers and achieve their
+                Since our founding, we've helped thousands of students both physical and virtual, transforming their careers and achieve their
                 dreams in the tech industry. Our comprehensive curriculum, expert instructors, and supportive community
                 create the perfect environment for learning and growth.
               </p>

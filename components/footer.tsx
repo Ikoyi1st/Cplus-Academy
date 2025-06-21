@@ -1,5 +1,6 @@
-import { Code, Github, Twitter, Linkedin } from "lucide-react"
+import { Github, Twitter, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ThemeLogo } from "./theme-logo"
 import Link from "next/link"
 
 export function Footer() {
@@ -9,11 +10,9 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Code className="h-5 w-5 text-white" />
-              </div>
+              <ThemeLogo width={32} height={32} />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                TechAcademy
+                Computer College Plus
               </span>
             </div>
             <p className="text-muted-foreground">
@@ -41,7 +40,32 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/courses" className="hover:text-primary transition-colors">
-                  Data Science
+                  Data Analysis
+                </Link>
+               </li>
+               <li> 
+                <Link href="/courses" className="hover:text-primary transition-colors">
+                  UI/UX Design
+                </Link>
+                </li>
+                <li>
+                <Link href="/courses" className="hover:text-primary transition-colors">
+                  Wordpress Website Design
+                </Link>
+                </li>
+                <li>
+                <Link href="/courses" className="hover:text-primary transition-colors">
+                  Microsoft Office Suite
+                </Link>
+                </li>
+                <li>
+                <Link href="/courses" className="hover:text-primary transition-colors">
+                  Digital Marketing
+                </Link>
+                </li>
+                <li>
+                <Link href="/courses" className="hover:text-primary transition-colors">
+                  Cyber Security
                 </Link>
               </li>
             </ul>
@@ -102,16 +126,16 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} TechAcademy. All rights reserved.
+            &copy; {new Date().getFullYear()} C Plus. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
               <Github className="h-5 w-5" />
             </Button>
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
               <Twitter className="h-5 w-5" />
             </Button>
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="outline" size="icon" className="rounded-full bg-background text-foreground">
               <Linkedin className="h-5 w-5" />
             </Button>
           </div>

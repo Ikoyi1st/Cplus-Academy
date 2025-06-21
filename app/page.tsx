@@ -93,10 +93,10 @@ export default function HomePage() {
                 </Button>
               </Link>
 
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6 rounded-full border-2">
+              {/* <Button variant="outline" size="lg" className="text-lg px-8 py-6 rounded-full border-2">
                 <Play className="mr-2 h-5 w-5" />
                 Watch Demo
-              </Button>
+              </Button> */}
             </motion.div>
 
             <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto" variants={fadeInUp}>
@@ -132,7 +132,7 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Why Choose TechAcademy?
+              Why Choose Us?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               We provide world-class education with practical experience to help you succeed in tech
