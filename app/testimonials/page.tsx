@@ -23,8 +23,8 @@ export default function TestimonialsPage() {
   const testimonials = [
     {
       name: "Sarah Johnson",
-      role: "Software Engineer at Google",
-      company: "Google",
+      role: "Software Engineer",
+      company: "Freelancing",
       content:
         "TechAcademy transformed my career completely. The hands-on approach and expert mentorship helped me land my dream job at Google. The curriculum is cutting-edge and the community is incredibly supportive.",
       avatar: "/placeholder.svg?height=80&width=80",
@@ -52,7 +52,7 @@ export default function TestimonialsPage() {
     {
       name: "Emily Rodriguez",
       role: "Senior Mobile Developer",
-      company: "Uber",
+      company: "Freelancing",
       content:
         "The mobile development course gave me the skills I needed to transition from web development to mobile. The instructors were patient and the curriculum was comprehensive.",
       avatar: "/placeholder.svg?height=80&width=80",
@@ -66,7 +66,7 @@ export default function TestimonialsPage() {
     {
       name: "David Kim",
       role: "Data Science Manager",
-      company: "Netflix",
+      company: "",
       content:
         "TechAcademy's data science program is top-notch. The combination of theory and practical application prepared me perfectly for my role at Netflix. Highly recommended!",
       avatar: "/placeholder.svg?height=80&width=80",

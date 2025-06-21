@@ -51,53 +51,6 @@ export default function AboutPage() {
     },
   ]
 
-  const team = [
-    {
-      name: "Sarah Johnson",
-      role: "Founder & CEO",
-      bio: "Former Google engineer with 15+ years in tech education",
-      image: "/placeholder.svg?height=300&width=300",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#",
-      },
-    },
-    {
-      name: "Dr. Michael Chen",
-      role: "Head of AI/ML",
-      bio: "PhD in Computer Science, AI researcher and industry consultant",
-      image: "/placeholder.svg?height=300&width=300",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#",
-      },
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Lead Mobile Instructor",
-      bio: "Senior mobile developer with apps used by millions",
-      image: "/placeholder.svg?height=300&width=300",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#",
-      },
-    },
-    {
-      name: "David Kim",
-      role: "Data Science Director",
-      bio: "Former Netflix data scientist, expert in machine learning",
-      image: "/placeholder.svg?height=300&width=300",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#",
-      },
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
@@ -253,69 +206,6 @@ export default function AboutPage() {
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="text-base">{value.description}</CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
-              Meet Our Team
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Industry experts and passionate educators dedicated to your success
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                  <CardHeader className="text-center">
-                    <div className="relative w-32 h-32 mx-auto mb-4">
-                      <Image
-                        src={member.image || "/placeholder.svg"}
-                        alt={member.name}
-                        width={128}
-                        height={128}
-                        className="rounded-full object-cover w-full h-full"
-                      />
-                    </div>
-                    <CardTitle className="text-xl">{member.name}</CardTitle>
-                    <Badge className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">{member.role}</Badge>
-                  </CardHeader>
-                  <CardContent className="text-center">
-                    <CardDescription className="text-base mb-4">{member.bio}</CardDescription>
-                    <div className="flex justify-center gap-2">
-                      <Button variant="outline" size="icon" className="rounded-full">
-                        <Linkedin className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="icon" className="rounded-full">
-                        <Twitter className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="icon" className="rounded-full">
-                        <Github className="h-4 w-4" />
-                      </Button>
-                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
