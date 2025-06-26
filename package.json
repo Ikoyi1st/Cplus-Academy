@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon",
-    "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/server.js"
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
