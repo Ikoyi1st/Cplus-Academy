@@ -126,7 +126,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} C Plus. All rights reserved.
+            &copy; {new Date().getFullYear()} CC Plus. All rights reserved.
           </p>
           <div className="flex gap-4">
             <Link href="https://x.com/CC__Plus?t=C1Eqihut0phCzqCRRp9OHg&s=09">

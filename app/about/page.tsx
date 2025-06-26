@@ -114,7 +114,7 @@ export default function AboutPage() {
             >
               <div className="relative rounded-2xl overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
+                  src="/cplus-logo.jpg"
                   alt="Students learning"
                   width={600}
                   height={400}

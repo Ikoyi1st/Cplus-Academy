@@ -9,7 +9,19 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Mail, Phone, MapPin, Clock, MessageCircle, Send, CheckCircle, Users, BookOpen, HelpCircle } from "lucide-react"
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  MessageCircle,
+  Send,
+  CheckCircle,
+  Users,
+  BookOpen,
+  HelpCircle,
+  MessageSquare,
+} from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState } from "react"
@@ -39,25 +51,33 @@ export default function ContactPage() {
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email",
-      details: "hello@techacademy.com",
+      details: "info@computercollegeplus.com",
+      details2: "computercollegeplus@gmail.com",
       description: "Send us an email anytime",
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Phone",
-      details: "+1 (555) 123-4567",
-      description: "Mon-Fri from 8am to 6pm",
+      details: "08169288754",
+      description: "Mon-Fri from 9am to 4pm",
+    },
+    {
+      icon: <MessageSquare className="h-6 w-6" />,
+      title: "WhatsApp",
+      details: "08169288754",
+      description: "Chat with us on WhatsApp",
+      isWhatsApp: true,
     },
     {
       icon: <MapPin className="h-6 w-6" />,
       title: "Address",
-      details: "123 Tech Street, Silicon Valley, CA 94000",
-      description: "Come visit our campus",
+      details: "29, Davies Street, Ketu Alapere.",
+      description: "Come visit",
     },
     {
       icon: <Clock className="h-6 w-6" />,
       title: "Office Hours",
-      details: "Monday - Friday: 8:00 AM - 6:00 PM",
+      details: "Monday - Friday: 9:00 AM - 4:00 PM",
       description: "Weekend support available",
     },
   ]
@@ -86,11 +106,34 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // Create email content
+      const emailBody = `
+New Contact Form Submission:
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Subject: ${formData.subject}
+Message: ${formData.message}
+Newsletter Subscription: ${formData.newsletter ? "Yes" : "No"}
+    `.trim()
+
+      // Create mailto link
+      const mailtoLink = `mailto:computercollegeplus@gmail.com?subject=Contact Form: ${formData.subject}&body=${encodeURIComponent(emailBody)}`
+
+      // Open email client
+      window.location.href = mailtoLink
+
+      // Simulate processing time
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error("Error sending message:", error)
+      setIsSubmitting(false)
+    }
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -203,7 +246,7 @@ export default function ContactPage() {
                       <label className="text-sm font-medium mb-2 block">Phone Number</label>
                       <Input
                         type="tel"
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+234 (801) 123-4567"
                         value={formData.phone}
                         onChange={(e) => handleInputChange("phone", e.target.value)}
                       />
@@ -288,9 +331,24 @@ export default function ContactPage() {
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
                         {info.icon}
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <div className="font-semibold text-lg">{info.title}</div>
-                        <div className="text-primary font-medium">{info.details}</div>
+                        {info.isWhatsApp ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-2 bg-green-500 hover:bg-green-600 text-white border-green-500"
+                            onClick={() => window.open(`https://wa.me/234${info.details.substring(1)}`, "_blank")}
+                          >
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            Chat on WhatsApp
+                          </Button>
+                        ) : (
+                          <>
+                            <div className="text-primary font-medium">{info.details}</div>
+                            {info.details2 && <div className="text-primary font-medium">{info.details2}</div>}
+                          </>
+                        )}
                         <div className="text-muted-foreground text-sm">{info.description}</div>
                       </div>
                     </motion.div>
@@ -314,15 +372,6 @@ export default function ContactPage() {
                     <HelpCircle className="mr-2 h-4 w-4" />
                     Technical Support
                   </Button>
-                </div>
-              </div>
-
-              {/* Map placeholder */}
-              <div className="bg-muted rounded-lg h-64 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-muted-foreground">Interactive Map</p>
-                  <p className="text-sm text-muted-foreground">123 Tech Street, Silicon Valley</p>
                 </div>
               </div>
             </motion.div>

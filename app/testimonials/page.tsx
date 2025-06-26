@@ -22,89 +22,47 @@ export default function TestimonialsPage() {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Software Engineer",
+      name: "Zephaniah Jackson",
+      role: "Data Analytics",
       company: "Freelancing",
       content:
-        "TechAcademy transformed my career completely. The hands-on approach and expert mentorship helped me land my dream job at Google. The curriculum is cutting-edge and the community is incredibly supportive.",
-      avatar: "/placeholder.svg?height=80&width=80",
+        "I used to avoid anything tech-related, so enrolling in the Data Analytics course at Computer College Plus felt like a big leap. But it turned out to be one of the best learning experiences I've had. The tutors were genuinely supportive and always available to help. I gained practical skills in Excel, Power BI, Power Query, data cleaning, modeling, visualization, and analytics with SQL and Python. Now, I feel confident and ready to grow in my career.",
+      avatar: "/Zephaniah.jpg",
       rating: 5,
-      course: "Full Stack Development",
+      course: "Data Analytic",
       beforeRole: "Marketing Assistant",
       salaryIncrease: "150%",
       timeToJob: "3 months",
       featured: true,
     },
     {
-      name: "Michael Chen",
-      role: "AI Research Scientist",
-      company: "OpenAI",
+      name: "Popoola Abosede",
+      role: "Digital Marketing",
+      company: "Freelancing",
       content:
-        "The AI & Machine Learning course exceeded my expectations. The instructors are world-class and the projects are incredibly relevant to real-world applications. I'm now working on cutting-edge AI research.",
-      avatar: "/placeholder.svg?height=80&width=80",
+        "Enrolling in the Digital Marketing program at Computer College Plus was one of the best decisions I’ve made for my business. I learned powerful strategies including: PPC advertising, social media advertising, content marketing, email marketing, digital analytics, influencer marketing and search engine optimization (SEO) The facilitators delivered the lessons with clarity and passion, making the entire learning experience smooth and impactful. Thanks to Computer College Plus, I now feel more confident in using digital tools to grow my business and improve its online visibility.",
+      avatar: "/Abosede.jpg",
       rating: 5,
-      course: "AI & Machine Learning",
-      beforeRole: "Data Analyst",
+      course: "Digital Marketing",
+      beforeRole: "Entrepreneur",
       salaryIncrease: "200%",
       timeToJob: "2 months",
       featured: true,
     },
-    {
-      name: "Emily Rodriguez",
-      role: "Senior Mobile Developer",
-      company: "Freelancing",
-      content:
-        "The mobile development course gave me the skills I needed to transition from web development to mobile. The instructors were patient and the curriculum was comprehensive.",
-      avatar: "/placeholder.svg?height=80&width=80",
-      rating: 5,
-      course: "Mobile App Development",
-      beforeRole: "Junior Web Developer",
-      salaryIncrease: "120%",
-      timeToJob: "4 months",
-      featured: false,
-    },
-    {
-      name: "David Kim",
-      role: "Data Science Manager",
-      company: "",
-      content:
-        "TechAcademy's data science program is top-notch. The combination of theory and practical application prepared me perfectly for my role at Netflix. Highly recommended!",
-      avatar: "/placeholder.svg?height=80&width=80",
-      rating: 5,
-      course: "Data Science & Analytics",
-      beforeRole: "Business Analyst",
-      salaryIncrease: "180%",
-      timeToJob: "5 months",
-      featured: false,
-    },
-    {
-      name: "Lisa Wang",
-      role: "Cybersecurity Specialist",
-      company: "Microsoft",
-      content:
-        "The cybersecurity fundamentals course opened up a whole new career path for me. The hands-on labs and real-world scenarios were invaluable in preparing me for the industry.",
-      avatar: "/placeholder.svg?height=80&width=80",
-      rating: 5,
-      course: "Cybersecurity Fundamentals",
-      beforeRole: "IT Support",
-      salaryIncrease: "140%",
-      timeToJob: "6 months",
-      featured: false,
-    },
-    {
-      name: "Alex Thompson",
-      role: "DevOps Engineer",
-      company: "Amazon",
-      content:
-        "The DevOps course was exactly what I needed to advance my career. The cloud computing modules and CI/CD practices are directly applicable to my daily work at Amazon.",
-      avatar: "/placeholder.svg?height=80&width=80",
-      rating: 5,
-      course: "DevOps & Cloud Computing",
-      beforeRole: "System Administrator",
-      salaryIncrease: "160%",
-      timeToJob: "3 months",
-      featured: false,
-    },
+    // {
+    //   name: "Emily Rodriguez",
+    //   role: "Senior Mobile Developer",
+    //   company: "Freelancing",
+    //   content:
+    //     "The mobile development course gave me the skills I needed to transition from web development to mobile. The instructors were patient and the curriculum was comprehensive.",
+    //   avatar: "/placeholder.svg?height=80&width=80",
+    //   rating: 5,
+    //   course: "Mobile App Development",
+    //   beforeRole: "Junior Web Developer",
+    //   salaryIncrease: "120%",
+    //   timeToJob: "4 months",
+    //   featured: false,
+    // },
   ]
 
   const stats = [
@@ -259,80 +217,6 @@ export default function TestimonialsPage() {
                 />
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* All Testimonials Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
-              More Success Stories
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Read testimonials from our diverse community of successful graduates
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.slice(2).map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                  <CardHeader>
-                    <div className="flex items-center gap-4 mb-4">
-                      <Image
-                        src={testimonial.avatar || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        width={60}
-                        height={60}
-                        className="rounded-full"
-                      />
-                      <div>
-                        <CardTitle className="text-lg">{testimonial.name}</CardTitle>
-                        <CardDescription>{testimonial.role}</CardDescription>
-                        <div className="text-sm text-muted-foreground">{testimonial.company}</div>
-                      </div>
-                    </div>
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground italic mb-4">"{testimonial.content}"</p>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Course:</span>
-                        <Badge variant="outline">{testimonial.course}</Badge>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Salary Increase:</span>
-                        <span className="font-semibold text-green-600">{testimonial.salaryIncrease}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Time to Job:</span>
-                        <span className="font-semibold">{testimonial.timeToJob}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
