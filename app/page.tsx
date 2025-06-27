@@ -1,4 +1,3 @@
-"use client"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -72,7 +71,7 @@ export default function HomePage() {
               className="text-5xl md:text-7xl pt-20 font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
-             We are passionate building tomorrow's tech leaders at CC PLUS
+             We are passionately building tomorrow's tech leaders at CC PLUS
             </motion.h4>
 
             <motion.p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto" variants={fadeInUp}>
