@@ -68,15 +68,16 @@ export default function HomePage() {
             initial="initial"
             animate="animate"
           >
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+            <motion.h4
+              className="text-5xl md:text-7xl pt-20 font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
-              Master the Future of Technology
-            </motion.h1>
+              Learn with purpose, build with passion at Computer College plus
+            </motion.h4>
 
             <motion.p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto" variants={fadeInUp}>
-              Join thousands of students learning cutting-edge technologies with hands-on projects and expert mentorship
+              We are passionate building tomorrow's tech leaders at CC PLUS
+              Join thousands of students learning emerging technologies with hands-on projects and expert mentorship
             </motion.p>
 
             <motion.div
