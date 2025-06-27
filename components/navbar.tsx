@@ -43,7 +43,7 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-14 h-14 relative rounded-lg shadow-md ring-2 ring-blue-100 dark:ring-blue-900/20 p-1">
+              <div className="w-20 h-20 relative rounded-lg shadow-md ring-2 ring-blue-100 dark:ring-blue-900/20 p-1">
                 {mounted && (
                   <>
                     {/* Light theme logo */}
