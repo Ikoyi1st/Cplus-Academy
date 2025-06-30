@@ -144,7 +144,7 @@ Newsletter Subscription: ${formData.newsletter ? "Yes" : "No"}
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
-        <div className="pt-24 pb-12 flex items-center justify-center min-h-screen">
+        <div className="pt-28 pb-12 flex items-center justify-center min-h-screen">
           <motion.div
             className="text-center max-w-md mx-auto px-4"
             initial={{ opacity: 0, scale: 0.8 }}

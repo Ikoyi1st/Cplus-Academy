@@ -11,10 +11,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "TechAcademy - Master the Future of Technology",
+  title: "Computer College Plus",
   description:
     "Join thousands of students learning cutting-edge technologies with hands-on projects and expert mentorship",
-    generator: 'v0.dev'
+    
 }
 
 export default function RootLayout({

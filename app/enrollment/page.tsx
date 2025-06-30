@@ -331,7 +331,7 @@ Submitted on: ${new Date().toLocaleString()}
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <div className="pt-24 pb-12 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950">
+      <div className="pt-28 pb-12 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
           <motion.div
