@@ -14,8 +14,18 @@ export const metadata: Metadata = {
   title: "Computer College Plus",
   description:
     "Join thousands of students learning cutting-edge technologies with hands-on projects and expert mentorship",
-    
-    
+  icons: {
+    icon:[
+      '/favicon.ico?v=4'
+    ],
+    apple: [
+      '/apple-touch-icon.png?v=4'
+    ],
+    shortcut: [
+      '/apple-touch-icon.png'
+    ]
+  },
+  manifest: '/site.webmanifest'
 }
 
 export default function RootLayout({
