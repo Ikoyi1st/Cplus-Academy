@@ -43,12 +43,12 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }}>
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-20 h-20 relative rounded-lg shadow-md ring-2 ring-blue-100 dark:ring-blue-900/20 p-1">
+              <div className="w-16 h-16 relative  dark:ring-blue-900/20 p-1">
                 {mounted && (
                   <>
                     {/* Light theme logo */}
                     <img 
-                      src="/college-logo.jpg" 
+                      src="/computerplus-logo.png" 
                       alt="Computer College Plus Logo" 
                       className={`w-full h-full object-contain transition-opacity duration-200 ${
                         theme === 'dark' ? 'opacity-0' : 'opacity-100'
@@ -56,7 +56,7 @@ export function Navbar() {
                     />
                     {/* Dark theme logo */}
                     <img 
-                      src="/college-logo2.jpg" 
+                      src="/computerplus-logo.png" 
                       alt="Computer College Plus Logo" 
                       className={`w-full h-full object-contain absolute inset-0 transition-opacity duration-200 ${
                         theme === 'dark' ? 'opacity-100' : 'opacity-0'
