@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   description:
     "Join thousands of students learning cutting-edge technologies with hands-on projects and expert mentorship",
     
+    
 }
 
 export default function RootLayout({

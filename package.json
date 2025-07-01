@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "homepage": "",
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
@@ -83,6 +84,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Ikoyi1st/Cplus-Academy/issues"
-  },
-  "homepage": "https://github.com/Ikoyi1st/Cplus-Academy#readme"
+  }
 }

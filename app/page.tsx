@@ -69,7 +69,7 @@ export default function HomePage() {
             animate="animate"
           >
             <motion.h4
-              className="text-5xl md:text-7xl pt-24 font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+              className="text-5xl md:text-7xl pt-32 font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
              We are passionately building tomorrow's tech leaders at CC PLUS
