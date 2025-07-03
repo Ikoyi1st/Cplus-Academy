@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -27,7 +27,7 @@ const fadeInUp = {
 // Initialize EmailJS with your public key
 emailjs.init("WsdXVBLfaDtCDfiQ9")
 
-export default function EnrollmentForm() {
+function EnrollmentFormContent() {
   const router = useRouter()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -523,7 +523,7 @@ Submitted on: ${new Date().toLocaleString()}
 
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                        <Label htmlFor="dateOfBirth">Date of Birth (Month & Day)</Label>
                         <Input
                           id="dateOfBirth"
                           type="date"
@@ -692,5 +692,22 @@ Submitted on: ${new Date().toLocaleString()}
 
       <Footer />
     </div>
+  )
+}
+
+export default function EnrollmentForm() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading enrollment form...</p>
+          </div>
+        </div>
+      }
+    >
+      <EnrollmentFormContent />
+    </Suspense>
   )
 }
