@@ -36,7 +36,7 @@ export default function CoursesPage() {
       category: "Web and Mobile Development",
       rating: 4.9,
       students: 3247,
-      features: ["React & Next.js", "React Native", "Flutter", "Node.js", "Mobile UI/UX"],
+      features: ["HTML & CSS", "CSS (Framework)", "Javascript", "React Native", "Flutter (Basics)"],
       popular: true,
     },
     {
@@ -51,7 +51,7 @@ export default function CoursesPage() {
       category: "Web and Mobile Development",
       rating: 4.8,
       students: 2156,
-      features: ["Advanced React", "Microservices", "Cloud Deployment", "Performance Optimization", "Testing"],
+      features: ["Advanced React", "Microservices", "Cloud Deployment (Github)", "Performance Optimization"],
       popular: false,
     },
     {
@@ -66,7 +66,7 @@ export default function CoursesPage() {
       category: "Web and Mobile Development",
       rating: 4.9,
       students: 1423,
-      features: ["System Architecture", "DevOps Integration", "Scalability", "Security", "Team Leadership"],
+      features: ["System Architecture", "DevOps Integration", "Scalability", "Security"],
       popular: true,
     },
     {
@@ -120,8 +120,8 @@ export default function CoursesPage() {
       description: "Introduction to machine learning concepts and practical applications",
       duration: "12 weeks",
       level: "All",
-      price: "180,000",
-      originalPrice: "200,000",
+      price: "150,000",
+      originalPrice: "170,000",
       image: "/machine.webp",
       category: "Machine Learning",
       rating: 4.6,
@@ -129,21 +129,6 @@ export default function CoursesPage() {
       features: ["Python Basics", "ML Fundamentals", "Scikit-learn", "Data Preprocessing", "Model Evaluation"],
       popular: false,
     },
-    // {
-    //   id: 8,
-    //   title: "Machine Learning - Intermediate",
-    //   description: "Advanced machine learning algorithms and deep learning fundamentals",
-    //   duration: "16 weeks",
-    //   level: "Intermediate",
-    //   price: "----",
-    //   originalPrice: "----",
-    //   image: "/machine2.webp",
-    //   category: "Machine Learning",
-    //   rating: 4.8,
-    //   students: 1876,
-    //   features: ["Deep Learning", "TensorFlow", "Neural Networks", "Computer Vision", "NLP Basics"],
-    //   popular: true,
-    // },
     {
       id: 9,
       title: "UI/UX Design Fundamentals",
@@ -270,13 +255,13 @@ export default function CoursesPage() {
       description: "Advanced digital marketing with conversion optimization and automation",
       duration: "10 weeks",
       level: "Intermediate",
-      price: "80,000",
-      originalPrice: "100,000",
+      price: "100,000",
+      originalPrice: "120,000",
       image: "/digital.webp",
       category: "Digital Marketing",
       rating: 4.7,
       students: 2234,
-      features: ["SEO Advanced", "PPC Optimization", "Marketing Automation", "A/B Testing", "ROI Analysis"],
+      features: ["SEO Advanced", "PPC Optimization", "Marketing Automation", "Influencer Marketing", "ROI Analysis"],
       popular: false,
     },
     {
@@ -285,8 +270,8 @@ export default function CoursesPage() {
       description: "Expert digital marketing with strategy development and team leadership",
       duration: "12 weeks",
       level: "Advanced",
-      price: "100,000",
-      originalPrice: "120,000",
+      price: "120,000",
+      originalPrice: "140,000",
       image: "/digital2.webp",
       category: "Digital Marketing",
       rating: 4.8,
@@ -300,8 +285,8 @@ export default function CoursesPage() {
       description: "Introduction to AI concepts, applications, and ethical considerations",
       duration: "12 weeks",
       level: "Beginner",
-      price: "160,000",
-      originalPrice: "180,000",
+      price: "180,000",
+      originalPrice: "200,000",
       image: "/Ai.jpg",
       category: "Artificial Intelligence (AI)",
       rating: 4.6,
@@ -315,8 +300,8 @@ export default function CoursesPage() {
       description: "Advanced AI techniques including neural networks and computer vision",
       duration: "10 weeks",
       level: "Intermediate",
-      price: "160,000",
-      originalPrice: "180,000",
+      price: "200,000",
+      originalPrice: "220,000",
       image: "/ai2.webp",
       category: "Artificial Intelligence (AI)",
       rating: 4.8,
@@ -336,8 +321,8 @@ export default function CoursesPage() {
       description: "Cutting-edge AI research and enterprise AI implementation",
       duration: "10 weeks",
       level: "Advanced",
-      price: "180,000",
-      originalPrice: "200,000",
+      price: "220,000",
+      originalPrice: "240,000",
       image: "/ai3.webp",
       category: "Artificial Intelligence (AI)",
       rating: 4.9,
@@ -357,7 +342,7 @@ export default function CoursesPage() {
       category: "Data Analysis",
       rating: 4.5,
       students: 2789,
-      features: ["Excel for Data", "SQL Basics", "Statistics", "Data Visualization", "Reporting"],
+      features: ["Excel", "Data Cleaning", "Power Pivot", "Power BI"],
       popular: true,
     },
     {
@@ -372,13 +357,7 @@ export default function CoursesPage() {
       category: "Data Analysis",
       rating: 4.7,
       students: 1956,
-      features: [
-        "Python & Pandas",
-        "R Programming",
-        "Statistical Modeling",
-        "Advanced Visualization",
-        "Predictive Analytics",
-      ],
+      features: ["Power BI Dashboard", "Power Quary", "Data Modeling", "SQL"],
       popular: false,
     },
     {
@@ -393,7 +372,7 @@ export default function CoursesPage() {
       category: "Data Analysis",
       rating: 4.8,
       students: 1234,
-      features: ["Big Data Tools", "Advanced ML", "Data Engineering", "Business Intelligence", "Data Strategy"],
+      features: ["SQL Advance", "Tablue", "Power BI Story Telling", "Python"],
       popular: true,
     },
     {
@@ -544,11 +523,10 @@ export default function CoursesPage() {
       rating: 4.6,
       students: 2345,
       features: [
-        "Data Cleaning & Preparation",
-        "Statistical Analysis",
+        "Machine Learning",
+        "Data Cleaning & Preparation (Python) ",
         "Data Visualization",
         "Business Integration",
-        "Basic Tools",
       ],
       popular: true,
     },
@@ -605,6 +583,13 @@ export default function CoursesPage() {
 
     return matchesSearch && matchesCategory && matchesLevel
   })
+
+  // Function to create enrollment URL with course and level parameters
+  const createEnrollmentUrl = (courseTitle: string, courseLevel: string) => {
+    const encodedCourse = encodeURIComponent(courseTitle)
+    const encodedLevel = encodeURIComponent(courseLevel)
+    return `/enrollment?course=${encodedCourse}&level=${encodedLevel}`
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -789,11 +774,25 @@ export default function CoursesPage() {
                       </div>
                     </div>
 
-                    <Link href="/enrollment">
-                      <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
-                        Enroll Now
+                    <div className="flex gap-2">
+                      <Link href={createEnrollmentUrl(course.title, course.level)} className="flex-1">
+                        <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+                          Enroll Now
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="outline"
+                        size="default"
+                        className="bg-green-500 hover:bg-green-600 text-white border-green-500 px-4"
+                        onClick={() => {
+                          const message = `Hi! I'm interested in the ${course.title} course (${course.level} level). Can you provide more information about enrollment, schedule, and pricing?`
+                          const whatsappUrl = `https://wa.me/2348169288754?text=${encodeURIComponent(message)}`
+                          window.open(whatsappUrl, "_blank")
+                        }}
+                      >
+                        <Image src="/whatsapp.png" alt="WhatsApp" width={16} height={16} className="h-4 w-4" />
                       </Button>
-                    </Link>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>

@@ -1,7 +1,6 @@
 "use client"
 
-import React from "react"
-
+import type React from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -10,13 +9,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, User, GraduationCap, CheckCircle, Loader2 } from "lucide-react"
+import { ArrowLeft, CheckCircle, Loader2, Mail, User, GraduationCap, BookOpen, AlertCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useToast } from "@/hooks/use-toast"
 import emailjs from "@emailjs/browser"
+import { useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -24,10 +24,12 @@ const fadeInUp = {
   transition: { duration: 0.6, ease: "easeOut" },
 }
 
+// Initialize EmailJS with your public key
+emailjs.init("WsdXVBLfaDtCDfiQ9")
+
 export default function EnrollmentForm() {
   const router = useRouter()
   const { toast } = useToast()
-  const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessAlert, setShowSuccessAlert] = useState(false)
   const [formData, setFormData] = useState({
@@ -43,31 +45,20 @@ export default function EnrollmentForm() {
     address: "",
     city: "",
     state: "",
-    zipCode: "",
     country: "",
 
     // Educational Background
     highestEducation: "",
-    institution: "",
-    fieldOfStudy: "",
-    graduationYear: "",
 
-    // Course Information
+    // Course Information - These will be auto-populated
     selectedCourse: "",
     courseLevel: "",
-    startDate: "",
     learningGoals: "",
-
-    // Payment Information
-    paymentMethod: "",
-    installmentPlan: false,
-
     // Additional Information
     hearAboutUs: "",
     specialRequirements: "",
-    agreeToTerms: false,
-    subscribeNewsletter: false,
   })
+  const searchParams = useSearchParams()
 
   const courses = [
     "Web and Mobile Development",
@@ -88,6 +79,8 @@ export default function EnrollmentForm() {
     "Virtual Assistant",
   ]
 
+  const courseLevels = ["Beginner", "Intermediate", "Advanced", "Professional"]
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({
       ...prev,
@@ -95,28 +88,38 @@ export default function EnrollmentForm() {
     }))
   }
 
-  const nextStep = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1)
-    }
-  }
+  // Auto-populate course and level from URL parameters
+  useEffect(() => {
+    const courseFromUrl = searchParams.get("course")
+    const levelFromUrl = searchParams.get("level")
 
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+    if (courseFromUrl) {
+      setFormData((prev) => ({
+        ...prev,
+        selectedCourse: decodeURIComponent(courseFromUrl),
+        courseLevel: levelFromUrl || "Beginner",
+      }))
     }
+  }, [searchParams])
+
+  // Show browser alert popup
+  const showSuccessPopup = () => {
+    alert(
+      `🎉 Enrollment Submitted Successfully!\n\nThank you ${formData.firstName} ${formData.lastName}!\n\nYour enrollment for "${formData.selectedCourse}" (${formData.courseLevel} level) has been received.\n\nWe will contact you within 24 hours at ${formData.email}.\n\nYou will be redirected to the courses page shortly.`,
+    )
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Only allow submission on the final step
-    if (currentStep !== 3) {
-      nextStep()
+    // Validate required fields
+    if (!formData.selectedCourse || !formData.courseLevel) {
+      alert(
+        "⚠️ Course Not Selected\n\nPlease go back to the courses page and click 'Enroll Now' on your desired course.",
+      )
       return
     }
 
-    // Validate required fields
     const requiredFields = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -125,11 +128,7 @@ export default function EnrollmentForm() {
       address: formData.address,
       city: formData.city,
       state: formData.state,
-      zipCode: formData.zipCode,
       country: formData.country,
-      selectedCourse: formData.selectedCourse,
-      courseLevel: formData.courseLevel,
-      startDate: formData.startDate,
     }
 
     const missingFields = Object.entries(requiredFields)
@@ -137,20 +136,12 @@ export default function EnrollmentForm() {
       .map(([key, _]) => key)
 
     if (missingFields.length > 0) {
-      toast({
-        title: "Missing Required Fields",
-        description: "Please fill in all required fields before submitting.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (!formData.agreeToTerms) {
-      toast({
-        title: "Terms and Conditions",
-        description: "Please agree to the terms and conditions to continue.",
-        variant: "destructive",
-      })
+      alert(
+        "⚠️ Missing Required Fields\n\nPlease fill in all required fields before submitting:\n\n" +
+          missingFields
+            .map((field) => `• ${field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}`)
+            .join("\n"),
+      )
       return
     }
 
@@ -162,7 +153,7 @@ export default function EnrollmentForm() {
         to_email: "computercollegeplus@gmail.com",
         from_name: `${formData.firstName} ${formData.lastName}`,
         from_email: formData.email,
-        subject: `New Course Enrollment: ${formData.firstName} ${formData.lastName} - ${formData.selectedCourse}`,
+        subject: `New Course Enrollment: ${formData.firstName} ${formData.lastName} - ${formData.selectedCourse} (${formData.courseLevel})`,
 
         // Personal Information
         first_name: formData.firstName,
@@ -176,26 +167,19 @@ export default function EnrollmentForm() {
         address: formData.address,
         city: formData.city,
         state: formData.state,
-        zip_code: formData.zipCode,
         country: formData.country,
 
         // Educational Background
         highest_education: formData.highestEducation || "Not provided",
-        institution: formData.institution || "Not provided",
-        field_of_study: formData.fieldOfStudy || "Not provided",
-        graduation_year: formData.graduationYear || "Not provided",
 
-        // Course Information
+        // Course Information (Key fields for tracking)
         selected_course: formData.selectedCourse,
         course_level: formData.courseLevel,
-        start_date: formData.startDate,
         learning_goals: formData.learningGoals || "Not provided",
 
         // Additional Information
         hear_about_us: formData.hearAboutUs || "Not provided",
         special_requirements: formData.specialRequirements || "None",
-        agreed_to_terms: formData.agreeToTerms ? "Yes" : "No",
-        subscribe_newsletter: formData.subscribeNewsletter ? "Yes" : "No",
 
         // System Information
         submission_date: new Date().toLocaleString(),
@@ -203,10 +187,15 @@ export default function EnrollmentForm() {
 
         // Formatted summary for easy reading
         enrollment_summary: `
-ENROLLMENT DETAILS
-==================
+COURSE ENROLLMENT APPLICATION
+============================
 
-PERSONAL INFORMATION:
+COURSE DETAILS:
+- Course: ${formData.selectedCourse}
+- Level: ${formData.courseLevel}
+- Learning Goals: ${formData.learningGoals || "Not specified"}
+
+STUDENT INFORMATION:
 - Name: ${formData.firstName} ${formData.lastName}
 - Email: ${formData.email}
 - Phone: ${formData.phone}
@@ -217,30 +206,20 @@ ADDRESS:
 - Address: ${formData.address}
 - City: ${formData.city}
 - State/Province: ${formData.state}
-- ZIP/Postal Code: ${formData.zipCode}
 - Country: ${formData.country}
 
 EDUCATIONAL BACKGROUND:
 - Highest Education: ${formData.highestEducation || "Not provided"}
-- Institution: ${formData.institution || "Not provided"}
-- Field of Study: ${formData.fieldOfStudy || "Not provided"}
-- Graduation Year: ${formData.graduationYear || "Not provided"}
-
-COURSE INFORMATION:
-- Selected Course: ${formData.selectedCourse}
-- Course Level: ${formData.courseLevel}
-- Preferred Start Date: ${formData.startDate}
-- Learning Goals: ${formData.learningGoals || "Not provided"}
 
 ADDITIONAL INFORMATION:
 - How they heard about us: ${formData.hearAboutUs || "Not provided"}
 - Special Requirements: ${formData.specialRequirements || "None"}
-- Agreed to Terms: ${formData.agreeToTerms ? "Yes" : "No"}
-- Subscribe to Newsletter: ${formData.subscribeNewsletter ? "Yes" : "No"}
 
 Submitted on: ${new Date().toLocaleString()}
-  `.trim(),
+        `.trim(),
       }
+
+      console.log("Sending email with params:", templateParams)
 
       // Send email using EmailJS
       const result = await emailjs.send(
@@ -250,13 +229,19 @@ Submitted on: ${new Date().toLocaleString()}
         "WsdXVBLfaDtCDfiQ9", // Your EmailJS public key
       )
 
+      console.log("EmailJS result:", result)
+
       if (result.status === 200) {
-        // Show success alert
+        // Show success popup alert
+        showSuccessPopup()
+
+        // Show success alert banner
         setShowSuccessAlert(true)
 
+        // Show toast notification
         toast({
-          title: "Enrollment Submitted Successfully!",
-          description: "We've received your enrollment and will contact you soon.",
+          title: "Enrollment Submitted Successfully! 🎉",
+          description: `Your enrollment for ${formData.selectedCourse} (${formData.courseLevel}) has been received. We'll contact you soon!`,
         })
 
         // Reset form after successful submission
@@ -270,31 +255,20 @@ Submitted on: ${new Date().toLocaleString()}
           address: "",
           city: "",
           state: "",
-          zipCode: "",
           country: "",
           highestEducation: "",
-          institution: "",
-          fieldOfStudy: "",
-          graduationYear: "",
           selectedCourse: "",
           courseLevel: "",
-          startDate: "",
           learningGoals: "",
-          paymentMethod: "",
-          installmentPlan: false,
           hearAboutUs: "",
           specialRequirements: "",
-          agreeToTerms: false,
-          subscribeNewsletter: false,
         })
-
-        setCurrentStep(1)
 
         // Hide success alert and redirect after delay
         setTimeout(() => {
           setShowSuccessAlert(false)
           router.push("/courses")
-        }, 4000)
+        }, 5000)
       } else {
         throw new Error(`EmailJS returned status: ${result.status}`)
       }
@@ -311,6 +285,9 @@ Submitted on: ${new Date().toLocaleString()}
         }
       }
 
+      // Show error popup
+      alert(`❌ Submission Failed\n\n${errorMessage}\n\nPlease try again or contact support if the problem persists.`)
+
       toast({
         title: "Submission Failed",
         description: errorMessage,
@@ -320,12 +297,6 @@ Submitted on: ${new Date().toLocaleString()}
       setIsSubmitting(false)
     }
   }
-
-  const steps = [
-    { number: 1, title: "Personal Info", icon: User },
-    { number: 2, title: "Education", icon: GraduationCap },
-    { number: 3, title: "Course Details", icon: CheckCircle },
-  ]
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -346,9 +317,9 @@ Submitted on: ${new Date().toLocaleString()}
             </Button>
 
             <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Course Enrollment
+              Course Enrollment Application
             </h1>
-            <p className="text-muted-foreground">Complete your enrollment in just a few simple steps</p>
+            <p className="text-muted-foreground">Complete your enrollment in one simple form</p>
           </motion.div>
 
           {/* Success Alert */}
@@ -371,7 +342,7 @@ Submitted on: ${new Date().toLocaleString()}
                     </h3>
                     <p className="text-green-700 dark:text-green-300 mt-1">
                       Thank you for your enrollment! We've received your application and will contact you within 24
-                      hours to discuss the next steps.
+                      hours.
                     </p>
                     <p className="text-sm text-green-600 dark:text-green-400 mt-2">
                       You will be redirected to the courses page shortly...
@@ -392,391 +363,325 @@ Submitted on: ${new Date().toLocaleString()}
             </motion.div>
           )}
 
-          {/* Progress Steps */}
-          <motion.div className="mb-8" {...fadeInUp}>
-            <div className="flex justify-between items-center">
-              {steps.map((step, index) => {
-                const Icon = step.icon
-                const isActive = currentStep === step.number
-                const isCompleted = currentStep > step.number
-
-                return (
-                  <div key={step.number} className="flex items-center">
-                    <div
-                      className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${
-                        isCompleted
-                          ? "bg-green-500 border-green-500 text-white"
-                          : isActive
-                            ? "bg-primary border-primary text-primary-foreground"
-                            : "border-muted-foreground text-muted-foreground"
-                      }`}
-                    >
-                      {isCompleted ? <CheckCircle className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
-                    </div>
-                    <div className="ml-2 hidden sm:block">
-                      <div className={`text-sm font-medium ${isActive ? "text-primary" : "text-muted-foreground"}`}>
-                        {step.title}
-                      </div>
-                    </div>
-                    {index < steps.length - 1 && (
-                      <div className={`w-8 sm:w-16 h-0.5 mx-4 ${isCompleted ? "bg-green-500" : "bg-muted"}`} />
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </motion.div>
-
           {/* Form */}
           <motion.div {...fadeInUp}>
             <Card className="border-0 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  {React.createElement(steps[currentStep - 1].icon, { className: "h-5 w-5" })}
-                  Step {currentStep}: {steps[currentStep - 1].title}
+                  <GraduationCap className="h-6 w-6" />
+                  Enrollment Application
                 </CardTitle>
                 <CardDescription>
-                  {currentStep === 1 && "Please provide your personal information"}
-                  {currentStep === 2 && "Tell us about your educational background"}
-                  {currentStep === 3 && "Select your course and preferences"}
+                  Please fill out all required fields to complete your course enrollment
                 </CardDescription>
               </CardHeader>
 
               <CardContent>
-                <form onSubmit={handleSubmit}>
-                  {/* Step 1: Personal Information */}
-                  {currentStep === 1 && (
-                    <div className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name *</Label>
-                          <Input
-                            id="firstName"
-                            value={formData.firstName}
-                            onChange={(e) => handleInputChange("firstName", e.target.value)}
-                            required
-                          />
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Selected Course Display */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <BookOpen className="h-5 w-5 text-primary" />
+                      <h3 className="text-lg font-semibold">Selected Course</h3>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 p-6 rounded-lg border-2 border-primary/20">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="text-xl font-bold text-primary">
+                            {formData.selectedCourse || "No course selected"}
+                          </h4>
+                          <p className="text-lg text-muted-foreground">
+                            Level: {formData.courseLevel || "Not specified"}
+                          </p>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name *</Label>
-                          <Input
-                            id="lastName"
-                            value={formData.lastName}
-                            onChange={(e) => handleInputChange("lastName", e.target.value)}
-                            required
-                          />
+                        <div className="flex items-center gap-2">
+                          {formData.selectedCourse ? (
+                            <>
+                              <CheckCircle className="h-6 w-6 text-green-500" />
+                              <span className="text-sm font-medium text-green-600">Auto-selected</span>
+                            </>
+                          ) : (
+                            <>
+                              <AlertCircle className="h-6 w-6 text-yellow-500" />
+                              <span className="text-sm font-medium text-yellow-600">Not selected</span>
+                            </>
+                          )}
                         </div>
                       </div>
 
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="email">Email Address *</Label>
-                          <Input
-                            id="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={(e) => handleInputChange("email", e.target.value)}
-                            required
-                          />
+                      {(!formData.selectedCourse || !formData.courseLevel) && (
+                        <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                          <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+                            ⚠️ No course was pre-selected. Please go back to the courses page and click "Enroll Now" on
+                            your desired course, or select one manually below.
+                          </p>
+                          <div className="mt-4 grid md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="manualCourse">Select Course</Label>
+                              <Select
+                                value={formData.selectedCourse}
+                                onValueChange={(value) => handleInputChange("selectedCourse", value)}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Choose a course" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {courses.map((course) => (
+                                    <SelectItem key={course} value={course}>
+                                      {course}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="manualLevel">Course Level</Label>
+                              <Select
+                                value={formData.courseLevel}
+                                onValueChange={(value) => handleInputChange("courseLevel", value)}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Choose level" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {courseLevels.map((level) => (
+                                    <SelectItem key={level} value={level}>
+                                      {level}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="phone">Phone Number *</Label>
-                          <Input
-                            id="phone"
-                            type="tel"
-                            value={formData.phone}
-                            onChange={(e) => handleInputChange("phone", e.target.value)}
-                            required
-                          />
-                        </div>
-                      </div>
+                      )}
+                    </div>
 
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                          <Input
-                            id="dateOfBirth"
-                            type="date"
-                            value={formData.dateOfBirth}
-                            onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="gender">Gender</Label>
-                          <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select gender" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="male">Male</SelectItem>
-                              <SelectItem value="female">Female</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                              <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="learningGoals">Learning Goals (Optional)</Label>
+                      <Textarea
+                        id="learningGoals"
+                        placeholder="What do you hope to achieve with this course?"
+                        value={formData.learningGoals}
+                        onChange={(e) => handleInputChange("learningGoals", e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
 
+                  {/* Personal Information Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <User className="h-5 w-5 text-primary" />
+                      <h3 className="text-lg font-semibold">Personal Information</h3>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="address">Address *</Label>
+                        <Label htmlFor="firstName">First Name *</Label>
                         <Input
-                          id="address"
-                          value={formData.address}
-                          onChange={(e) => handleInputChange("address", e.target.value)}
+                          id="firstName"
+                          value={formData.firstName}
+                          onChange={(e) => handleInputChange("firstName", e.target.value)}
                           required
                         />
                       </div>
-
-                      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="city">City *</Label>
-                          <Input
-                            id="city"
-                            value={formData.city}
-                            onChange={(e) => handleInputChange("city", e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="state">State/Province *</Label>
-                          <Input
-                            id="state"
-                            value={formData.state}
-                            onChange={(e) => handleInputChange("state", e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="zipCode">ZIP/Postal Code *</Label>
-                          <Input
-                            id="zipCode"
-                            value={formData.zipCode}
-                            onChange={(e) => handleInputChange("zipCode", e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="country">Country *</Label>
-                          <Select
-                            value={formData.country}
-                            onValueChange={(value) => handleInputChange("country", value)}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select country" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="nigeria">Nigeria</SelectItem>
-                              <SelectItem value="ghana">Ghana</SelectItem>
-                              <SelectItem value="kenya">Kenya</SelectItem>
-                              <SelectItem value="south-africa">South Africa</SelectItem>
-                              <SelectItem value="usa">United States</SelectItem>
-                              <SelectItem value="uk">United Kingdom</SelectItem>
-                              <SelectItem value="canada">Canada</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 2: Educational Background */}
-                  {currentStep === 2 && (
-                    <div className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="highestEducation">Highest Education Level *</Label>
-                          <Select
-                            value={formData.highestEducation}
-                            onValueChange={(value) => handleInputChange("highestEducation", value)}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select education level" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="high-school">High School</SelectItem>
-                              <SelectItem value="associate">Associate Degree</SelectItem>
-                              <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
-                              <SelectItem value="master">Master's Degree</SelectItem>
-                              <SelectItem value="phd">PhD</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="graduationYear">Graduation Year</Label>
-                          <Input
-                            id="graduationYear"
-                            type="number"
-                            min="1950"
-                            max="2030"
-                            value={formData.graduationYear}
-                            onChange={(e) => handleInputChange("graduationYear", e.target.value)}
-                          />
-                        </div>
-                      </div>
-
                       <div className="space-y-2">
-                        <Label htmlFor="institution">Institution/School Name</Label>
+                        <Label htmlFor="lastName">Last Name *</Label>
                         <Input
-                          id="institution"
-                          value={formData.institution}
-                          onChange={(e) => handleInputChange("institution", e.target.value)}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="fieldOfStudy">Field of Study</Label>
-                        <Input
-                          id="fieldOfStudy"
-                          value={formData.fieldOfStudy}
-                          onChange={(e) => handleInputChange("fieldOfStudy", e.target.value)}
-                          placeholder="e.g., Computer Science, Business Administration"
+                          id="lastName"
+                          value={formData.lastName}
+                          onChange={(e) => handleInputChange("lastName", e.target.value)}
+                          required
                         />
                       </div>
                     </div>
-                  )}
 
-                  {/* Step 3: Course Details */}
-                  {currentStep === 3 && (
-                    <div className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="selectedCourse">Select Course *</Label>
-                        <Select
-                          value={formData.selectedCourse}
-                          onValueChange={(value) => handleInputChange("selectedCourse", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Choose your course" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {courses.map((course) => (
-                              <SelectItem key={course} value={course}>
-                                {course}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="courseLevel">Course Level *</Label>
-                        <Select
-                          value={formData.courseLevel}
-                          onValueChange={(value) => handleInputChange("courseLevel", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select level" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="beginner">Beginner</SelectItem>
-                            <SelectItem value="intermediate">Intermediate</SelectItem>
-                            <SelectItem value="advanced">Advanced</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="startDate">Preferred Start Date *</Label>
-                        <Select
-                          value={formData.startDate}
-                          onValueChange={(value) => handleInputChange("startDate", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select start date" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="immediate">Immediate</SelectItem>
-                            <SelectItem value="next-week">Next Week</SelectItem>
-                            <SelectItem value="next-month">Next Month</SelectItem>
-                            <SelectItem value="flexible">Flexible</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="learningGoals">Learning Goals & Expectations</Label>
-                        <Textarea
-                          id="learningGoals"
-                          value={formData.learningGoals}
-                          onChange={(e) => handleInputChange("learningGoals", e.target.value)}
-                          placeholder="Tell us what you hope to achieve with this course..."
-                          rows={4}
+                        <Label htmlFor="email">Email Address *</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          required
                         />
                       </div>
-
                       <div className="space-y-2">
-                        <Label htmlFor="hearAboutUs">How did you hear about us?</Label>
-                        <Select
-                          value={formData.hearAboutUs}
-                          onValueChange={(value) => handleInputChange("hearAboutUs", value)}
-                        >
+                        <Label htmlFor="phone">Phone Number *</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange("phone", e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                        <Input
+                          id="dateOfBirth"
+                          type="date"
+                          value={formData.dateOfBirth}
+                          onChange={(e) => {
+                            // Extract month and day only
+                            const date = new Date(e.target.value)
+                            const month = String(date.getMonth() + 1).padStart(2, "0")
+                            const day = String(date.getDate()).padStart(2, "0")
+                            handleInputChange("dateOfBirth", `${month}-${day}`)
+                          }}
+                          placeholder="MM-DD"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="gender">Gender</Label>
+                        <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select option" />
+                            <SelectValue placeholder="Select gender" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="google">Google Search</SelectItem>
-                            <SelectItem value="social-media">Social Media</SelectItem>
-                            <SelectItem value="friend">Friend/Referral</SelectItem>
-                            <SelectItem value="advertisement">Advertisement</SelectItem>
+                            <SelectItem value="male">Male</SelectItem>
+                            <SelectItem value="female">Female</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Address Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Address Information</h3>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="address">Street Address *</Label>
+                      <Input
+                        id="address"
+                        value={formData.address}
+                        onChange={(e) => handleInputChange("address", e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="city">City *</Label>
+                        <Input
+                          id="city"
+                          value={formData.city}
+                          onChange={(e) => handleInputChange("city", e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="state">State/Province *</Label>
+                        <Input
+                          id="state"
+                          value={formData.state}
+                          onChange={(e) => handleInputChange("state", e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="country">Country *</Label>
+                        <Input
+                          id="country"
+                          value={formData.country}
+                          onChange={(e) => handleInputChange("country", e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Educational Background Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Educational Background</h3>
+
+                    <div className="grid md:grid-cols-1 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="highestEducation">Highest Education Level</Label>
+                        <Select
+                          value={formData.highestEducation}
+                          onValueChange={(value) => handleInputChange("highestEducation", value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select education level" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="high-school">High School</SelectItem>
+                            <SelectItem value="associate">Associate Degree</SelectItem>
+                            <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
+                            <SelectItem value="master">Master's Degree</SelectItem>
+                            <SelectItem value="phd">PhD</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="agreeToTerms"
-                              checked={formData.agreeToTerms}
-                              onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked as boolean)}
-                            />
-                            <Label htmlFor="agreeToTerms" className="text-sm">
-                              I agree to the{" "}
-                              <a href="#" className="text-primary underline">
-                                Terms and Conditions
-                              </a>{" "}
-                              and{" "}
-                              <a href="#" className="text-primary underline">
-                                Privacy Policy
-                              </a>{" "}
-                              *
-                            </Label>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  )}
+                  </div>
 
-                  {/* Navigation Buttons */}
-                  <div className="flex justify-between mt-8 pt-6 border-t">
-                    <Button type="button" variant="outline" onClick={prevStep} disabled={currentStep === 1}>
-                      Previous
+                  {/* Additional Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Additional Information</h3>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="hearAboutUs">How did you hear about us?</Label>
+                      <Select
+                        value={formData.hearAboutUs}
+                        onValueChange={(value) => handleInputChange("hearAboutUs", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an option" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="google">Google Search</SelectItem>
+                          <SelectItem value="social-media">Social Media</SelectItem>
+                          <SelectItem value="friend-referral">Friend/Family Referral</SelectItem>
+                          <SelectItem value="advertisement">Advertisement</SelectItem>
+                          <SelectItem value="website">Our Website</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="specialRequirements">Special Requirements or Comments</Label>
+                      <Textarea
+                        id="specialRequirements"
+                        placeholder="Any special accommodations or additional information..."
+                        value={formData.specialRequirements}
+                        onChange={(e) => handleInputChange("specialRequirements", e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-6">
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold py-3 text-lg"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Submitting Enrollment...
+                        </>
+                      ) : (
+                        <>
+                          <Mail className="mr-2 h-5 w-5" />
+                          Complete Enrollment
+                        </>
+                      )}
                     </Button>
-
-                    {currentStep < 3 ? (
-                      <Button
-                        type="submit"
-                        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
-                      >
-                        Next Step
-                      </Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        disabled={!formData.agreeToTerms || isSubmitting}
-                        className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Submitting...
-                          </>
-                        ) : (
-                          "Complete Enrollment"
-                        )}
-                      </Button>
-                    )}
                   </div>
                 </form>
               </CardContent>

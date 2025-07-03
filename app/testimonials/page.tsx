@@ -29,7 +29,7 @@ export default function TestimonialsPage() {
         "I used to avoid anything tech-related, so enrolling in the Data Analytics course at Computer College Plus felt like a big leap. But it turned out to be one of the best learning experiences I've had. The tutors were genuinely supportive and always available to help. I gained practical skills in Excel, Power BI, Power Query, data cleaning, modeling, visualization, and analytics with SQL and Python. Now, I feel confident and ready to grow in my career.",
       avatar: "/Zephaniah.jpg",
       rating: 5,
-      course: "Data Analytic",
+      course: "Data Analysis",
       beforeRole: "Marketing Assistant",
       salaryIncrease: "150%",
       timeToJob: "3 months",
@@ -49,20 +49,20 @@ export default function TestimonialsPage() {
       timeToJob: "2 months",
       featured: true,
     },
-    // {
-    //   name: "Emily Rodriguez",
-    //   role: "Senior Mobile Developer",
-    //   company: "Freelancing",
-    //   content:
-    //     "The mobile development course gave me the skills I needed to transition from web development to mobile. The instructors were patient and the curriculum was comprehensive.",
-    //   avatar: "/placeholder.svg?height=80&width=80",
-    //   rating: 5,
-    //   course: "Mobile App Development",
-    //   beforeRole: "Junior Web Developer",
-    //   salaryIncrease: "120%",
-    //   timeToJob: "4 months",
-    //   featured: false,
-    // },
+    {
+      name: "Chima Fortune",
+      role: "Data Analytics",
+      company: "Freelancing",
+      content:
+        "Before CC Plus, data analysis was just something I knew existed, but I didn’t realize how powerful it could be until I took the course. What stood out for me wasn’t just the content, but how hands-on and practical the learning experience was. From Excel and Power BI to SQL and storytelling with data, each tool became clearer and more valuable with every session. Now, not only have I transitioned into a full-time data analyst, I also teach and guide others confidently. The program equipped me to build real-world dashboards, analyze business problems, and even launch my own data-focused initiative. If you're serious about turning data into decisions and getting results that matter, this is the kind of training that delivers.",
+      avatar: "/chima-fortune.png",
+      rating: 5,
+      course: "Data Analysis",
+      beforeRole: "Student",
+      salaryIncrease: "120%",
+      timeToJob: "4 months",
+      featured: false,
+    },
   ]
 
   const stats = [

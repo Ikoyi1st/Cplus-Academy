@@ -316,15 +316,7 @@ export default function EnrollmentForm() {
                       </div>
 
                       <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                          <Input
-                            id="dateOfBirth"
-                            type="date"
-                            value={formData.dateOfBirth}
-                            onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
-                          />
-                        </div>
+                       
                         <div className="space-y-2">
                           <Label htmlFor="gender">Gender</Label>
                           <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
@@ -370,35 +362,15 @@ export default function EnrollmentForm() {
                             required
                           />
                         </div>
+
                         <div className="space-y-2">
-                          <Label htmlFor="zipCode">ZIP/Postal Code *</Label>
+                          <Label htmlFor="state"><Country></Country> *</Label>
                           <Input
-                            id="zipCode"
-                            value={formData.zipCode}
-                            onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                            id="coutry"
+                            value={formData.state}
+                            onChange={(e) => handleInputChange("country", e.target.value)}
                             required
                           />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="country">Country *</Label>
-                          <Select
-                            value={formData.country}
-                            onValueChange={(value) => handleInputChange("country", value)}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select country" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="nigeria">Nigeria</SelectItem>
-                              <SelectItem value="ghana">Ghana</SelectItem>
-                              <SelectItem value="kenya">Kenya</SelectItem>
-                              <SelectItem value="south-africa">South Africa</SelectItem>
-                              <SelectItem value="usa">United States</SelectItem>
-                              <SelectItem value="uk">United Kingdom</SelectItem>
-                              <SelectItem value="canada">Canada</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
                         </div>
                       </div>
                     </div>
@@ -427,166 +399,16 @@ export default function EnrollmentForm() {
                             </SelectContent>
                           </Select>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="graduationYear">Graduation Year</Label>
-                          <Input
-                            id="graduationYear"
-                            type="number"
-                            min="1950"
-                            max="2030"
-                            value={formData.graduationYear}
-                            onChange={(e) => handleInputChange("graduationYear", e.target.value)}
-                          />
-                        </div>
-                      </div>
+                       
+                     )}
 
-                      <div className="space-y-2">
-                        <Label htmlFor="institution">Institution/School Name</Label>
-                        <Input
-                          id="institution"
-                          value={formData.institution}
-                          onChange={(e) => handleInputChange("institution", e.target.value)}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="fieldOfStudy">Field of Study</Label>
-                        <Input
-                          id="fieldOfStudy"
-                          value={formData.fieldOfStudy}
-                          onChange={(e) => handleInputChange("fieldOfStudy", e.target.value)}
-                          placeholder="e.g., Computer Science, Business Administration"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 3: Course Details */}
-                  {currentStep === 3 && (
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="selectedCourse">Select Course *</Label>
-                        <Select
-                          value={formData.selectedCourse}
-                          onValueChange={(value) => handleInputChange("selectedCourse", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Choose your course" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {courses.map((course) => (
-                              <SelectItem key={course} value={course}>
-                                {course}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="courseLevel">Course Level *</Label>
-                        <Select
-                          value={formData.courseLevel}
-                          onValueChange={(value) => handleInputChange("courseLevel", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select level" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="beginner">Beginner</SelectItem>
-                            <SelectItem value="intermediate">Intermediate</SelectItem>
-                            <SelectItem value="advanced">Advanced</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="startDate">Preferred Start Date *</Label>
-                        <Select
-                          value={formData.startDate}
-                          onValueChange={(value) => handleInputChange("startDate", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select start date" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="immediate">Immediate</SelectItem>
-                            <SelectItem value="next-week">Next Week</SelectItem>
-                            <SelectItem value="next-month">Next Month</SelectItem>
-                            <SelectItem value="flexible">Flexible</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="learningGoals">Learning Goals & Expectations</Label>
-                        <Textarea
-                          id="learningGoals"
-                          value={formData.learningGoals}
-                          onChange={(e) => handleInputChange("learningGoals", e.target.value)}
-                          placeholder="Tell us what you hope to achieve with this course..."
-                          rows={4}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="hearAboutUs">How did you hear about us?</Label>
-                        <Select
-                          value={formData.hearAboutUs}
-                          onValueChange={(value) => handleInputChange("hearAboutUs", value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select option" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="google">Google Search</SelectItem>
-                            <SelectItem value="social-media">Social Media</SelectItem>
-                            <SelectItem value="friend">Friend/Referral</SelectItem>
-                            <SelectItem value="advertisement">Advertisement</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="agreeToTerms"
-                              checked={formData.agreeToTerms}
-                              onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked as boolean)}
-                            />
-                            <Label htmlFor="agreeToTerms" className="text-sm">
-                              I agree to the{" "}
-                              <a href="#" className="text-primary underline">
-                                Terms and Conditions
-                              </a>{" "}
-                              and{" "}
-                              <a href="#" className="text-primary underline">
-                                Privacy Policy
-                              </a>{" "}
-                              *
-                            </Label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                 
 
                   {/* Navigation Buttons */}
                   <div className="flex justify-between mt-8 pt-6 border-t">
-                    <Button type="button" variant="outline" onClick={prevStep} disabled={currentStep === 1}>
-                      Previous
-                    </Button>
-
+                 
                     {currentStep < 3 ? (
-                      <Button
-                        type="button"
-                        onClick={nextStep}
-                        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
-                      >
-                        Next Step
-                      </Button>
-                    ) : (
+                     
                       <Button
                         type="submit"
                         disabled={!formData.agreeToTerms || isSubmitting}

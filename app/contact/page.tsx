@@ -25,12 +25,15 @@ import {
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { useState } from "react"
+import Image from "next/image"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, ease: "easeOut" },
 }
+
+const defaultWhatsAppMessage = "Hi! I'm interested in learning more about your courses at Computer College Plus."
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -336,12 +339,15 @@ Newsletter Subscription: ${formData.newsletter ? "Yes" : "No"}
                         {info.isWhatsApp ? (
                           <Button
                             variant="outline"
-                            size="sm"
-                            className="mt-2 bg-green-500 hover:bg-green-600 text-white border-green-500"
-                            onClick={() => window.open(`https://wa.me/234${info.details.substring(1)}`, "_blank")}
+                            size="default"
+                            className="bg-green-500 hover:bg-green-600 text-white border-green-500 px-4 gap-2"
+                            onClick={() => {
+                              const whatsappUrl = `https://wa.me/2348169288754?text=${encodeURIComponent(defaultWhatsAppMessage)}`
+                              window.open(whatsappUrl, "_blank")
+                            }}
                           >
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            Chat on WhatsApp
+                            <Image src="/whatsapp.png" alt="WhatsApp" width={16} height={16} className="h-4 w-4" />
+                            Chat with us
                           </Button>
                         ) : (
                           <>
@@ -360,15 +366,15 @@ Newsletter Subscription: ${formData.newsletter ? "Yes" : "No"}
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Actions</h4>
                 <div className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start bg-transparent">
                     <BookOpen className="mr-2 h-4 w-4" />
                     Schedule a Course Consultation
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start bg-transparent">
                     <Users className="mr-2 h-4 w-4" />
                     Join Our Community
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start bg-transparent">
                     <HelpCircle className="mr-2 h-4 w-4" />
                     Technical Support
                   </Button>
