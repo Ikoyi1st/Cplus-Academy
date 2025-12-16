@@ -101,7 +101,7 @@ export default function HomePage() {
 
             <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto" variants={fadeInUp}>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">4K+</div>
+                <div className="text-3xl font-bold text-primary">1K+</div>
                 <div className="text-sm text-muted-foreground">Students</div>
               </div>
               <div className="text-center">
@@ -109,7 +109,7 @@ export default function HomePage() {
                 <div className="text-sm text-muted-foreground">Courses</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">95%</div>
+                <div className="text-3xl font-bold text-primary">65%</div>
                 <div className="text-sm text-muted-foreground">Job Rate</div>
               </div>
               <div className="text-center">
