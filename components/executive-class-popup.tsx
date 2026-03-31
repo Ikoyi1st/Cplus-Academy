@@ -2,36 +2,19 @@
 
 import Image from "next/image"
 import { X } from "lucide-react"
-import { useEffect, useState } from "react"
-
-const STORAGE_KEY = "executive-class-popup-state"
+import { useState } from "react"
 
 type PopupState = "open" | "minimized"
 
 export function ExecutiveClassPopup() {
   const [popupState, setPopupState] = useState<PopupState>("open")
-  const [isReady, setIsReady] = useState(false)
-
-  useEffect(() => {
-    const savedState = window.localStorage.getItem(STORAGE_KEY)
-    if (savedState === "minimized") {
-      setPopupState("minimized")
-    }
-    setIsReady(true)
-  }, [])
 
   const openPopup = () => {
     setPopupState("open")
-    window.localStorage.setItem(STORAGE_KEY, "open")
   }
 
   const minimizePopup = () => {
     setPopupState("minimized")
-    window.localStorage.setItem(STORAGE_KEY, "minimized")
-  }
-
-  if (!isReady) {
-    return null
   }
 
   return (

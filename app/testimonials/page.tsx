@@ -4,12 +4,12 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Star, Quote, ArrowLeft, ArrowRight, Play } from "lucide-react"
+import { Star, Quote, ArrowLeft, ArrowRight } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -19,6 +19,7 @@ const fadeInUp = {
 
 export default function TestimonialsPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [currentGraduateSlide, setCurrentGraduateSlide] = useState(0)
 
   const testimonials = [
     {
@@ -72,12 +73,43 @@ export default function TestimonialsPage() {
     { value: "3.5 months", label: "Average Time to Job" },
   ]
 
+  const graduateSlides = [
+    {
+      src: "/graduate.jpeg",
+      alt: "Computer College Plus graduates collage one",
+    },
+    {
+      src: "/graduate-2.jpeg",
+      alt: "Computer College Plus graduates collage two",
+    },
+    {
+      src: "/graduate-3.jpeg",
+      alt: "Computer College Plus graduates collage three",
+    },
+  ]
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCurrentGraduateSlide((prev) => (prev + 1) % graduateSlides.length)
+    }, 3500)
+
+    return () => window.clearInterval(interval)
+  }, [graduateSlides.length])
+
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
   }
 
   const prevTestimonial = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
+
+  const nextGraduateSlide = () => {
+    setCurrentGraduateSlide((prev) => (prev + 1) % graduateSlides.length)
+  }
+
+  const prevGraduateSlide = () => {
+    setCurrentGraduateSlide((prev) => (prev - 1 + graduateSlides.length) % graduateSlides.length)
   }
 
   return (
@@ -216,6 +248,65 @@ export default function TestimonialsPage() {
                   }`}
                 />
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Graduates
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Meet some of our graduates through these celebration boards from recent cohorts.
+            </p>
+          </motion.div>
+
+          <div className="max-w-3xl mx-auto">
+            <motion.div
+              key={currentGraduateSlide}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="overflow-hidden rounded-3xl bg-white p-3 shadow-2xl dark:bg-slate-900"
+            >
+              <Image
+                src={graduateSlides[currentGraduateSlide].src}
+                alt={graduateSlides[currentGraduateSlide].alt}
+                width={900}
+                height={1200}
+                className="h-auto w-full rounded-2xl"
+              />
+            </motion.div>
+
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <Button variant="outline" size="icon" onClick={prevGraduateSlide} className="rounded-full">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <div className="flex gap-2">
+                {graduateSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setCurrentGraduateSlide(index)}
+                    aria-label={`View graduate slide ${index + 1}`}
+                    className={`h-3 w-3 rounded-full transition-colors ${
+                      index === currentGraduateSlide ? "bg-primary" : "bg-muted-foreground/30"
+                    }`}
+                  />
+                ))}
+              </div>
+              <Button variant="outline" size="icon" onClick={nextGraduateSlide} className="rounded-full">
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
